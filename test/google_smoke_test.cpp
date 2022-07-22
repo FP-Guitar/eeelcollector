@@ -3,7 +3,4 @@
 //
 #include <gtest/gtest.h>
 
-TEST(Foo, AssertFoo) {
-
-  EXPECT_TRUE(false);
-}
+TEST(Foo, AssertFoo) { EXPECT_TRUE(false); }
