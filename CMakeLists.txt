@@ -27,9 +27,6 @@ FetchContent_Declare(_project_options URL https://github.com/aminya/project_opti
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
-# uncomment to enable vcpkg:
-# # Setup vcpkg - should be called before defining project()
-# run_vcpkg()
 
 # Set the project name and language
 project(
@@ -45,8 +42,6 @@ string(
           "${CMAKE_SOURCE_DIR}"
           "${PROJECT_SOURCE_DIR}"
           PROJECT_IS_TOP_LEVEL)
-
-
 set(GIT_SHA
     "Unknown"
     CACHE STRING "SHA this build was generated from")
@@ -141,12 +136,9 @@ if(ENABLE_FUZZING)
   add_subdirectory(fuzz_test)
 endif()
 
-# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
-# so that it behaves well with MSVC's debugger, and we can run the target from visual studio
+# warn people
 if(MSVC)
-  get_all_installable_targets(all_targets)
-  message("all_targets=${all_targets}")
-  set_target_properties(${all_targets} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=$(VC_ExecutablePath_x64);%PATH%")
+  message(ERROR "MSVC is currently not built -> though not supported")
 endif()
 
 # set the startup project for the "play" button in MSVC
