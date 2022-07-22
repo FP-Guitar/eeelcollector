@@ -1,19 +1,22 @@
 # eeelcollector
+This is the implementation of a coding challenge. It sacrifices project setup for development speed. It is based
+on jason turners cpp best practies project. (https://github.com/cpp-best-practices/cppbestpractices) Unfortunately,
+the github pipeline seems to be broken for gcc11 builds in the latest template release. 
 
-[![ci](https://github.com/FP-Guitar/eeelcollector/actions/workflows/ci.yml/badge.svg)](https://github.com/FP-Guitar/eeelcollector/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/FP-Guitar/eeelcollector/branch/main/graph/badge.svg)](https://codecov.io/gh/FP-Guitar/eeelcollector)
-[![CodeQL](https://github.com/FP-Guitar/eeelcollector/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/FP-Guitar/eeelcollector/actions/workflows/codeql-analysis.yml)
+## Limitations 
+- I am used to gitlab ci so I skipped the part of fixing the pipeline. Especially, as I completly consumed my monthly minute limit
+with the first runs.
+- I am only builing currently on gcc9, as I don't have the time for setting up a multi compiler regression
 
-LGTM Has to be set up manually after template is created:
+Even with this limitations I get at least a manual asan and a usable set of standard compiler flags for the build types.
 
-[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/FP-Guitar/eeelcollector)](https://lgtm.com/projects/g/FP-Guitar/eeelcollector/context:cpp)
+# Dependency Management
+This project uses conan as dependency manager, which has to to usable and present in the system. 
+https://conan.io/
 
-## About eeelcollector
-coding challenge implementation
 
 
 ## More Details
-
  * [Dependency Setup](README_dependencies.md)
  * [Building Details](README_building.md)
  * [Troubleshooting](README_troubleshooting.md)
