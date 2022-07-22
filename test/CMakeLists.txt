@@ -18,8 +18,11 @@ endif()
 # ---- Dependencies ----
 
 find_package(Catch2 CONFIG REQUIRED)
-
 include(Catch)
+
+
+find_package(GTest)
+include(GoogleTest)
 
 add_library(catch_main OBJECT catch_main.cpp)
 target_link_libraries(catch_main PUBLIC Catch2::Catch2)
@@ -37,6 +40,12 @@ set_tests_properties(cli.version_matches PROPERTIES PASS_REGULAR_EXPRESSION "${P
 
 add_executable(tests tests.cpp)
 target_link_libraries(tests PRIVATE eeelcollector::project_warnings eeelcollector::project_options catch_main)
+
+
+add_executable(google_smoke_test google_smoke_test.cpp)
+
+target_link_libraries(google_smoke_test PRIVATE GTest::gtest_main project_options project_warnings)
+gtest_discover_tests(google_smoke_test)
 
 # automatically discover tests that are defined in catch based test files you can modify the unittests. Set TEST_PREFIX
 # to whatever you want, or use different for different binaries
