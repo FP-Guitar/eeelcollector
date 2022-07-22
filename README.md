@@ -26,7 +26,6 @@ short circuit.
 Normally I would take the time to have a full ci pipeline running before starting any programming work. C++ is a difficult
 topic. Especially if you don't have paid subscriptions to gitlab/github or alternative jenkins available.
 Nevertheless, the first project setup is always very time consuming, compared to other languages.
-
  
 
 ## More Details
