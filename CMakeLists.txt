@@ -45,11 +45,7 @@ string(
           "${CMAKE_SOURCE_DIR}"
           "${PROJECT_SOURCE_DIR}"
           PROJECT_IS_TOP_LEVEL)
-if(PROJECT_IS_TOP_LEVEL)
-  # Consider the CTest module, which creates targets and options!
-  # Only needed if you want to enable submissions to a CDash server.
-  include(CTest)
-endif()
+
 
 set(GIT_SHA
     "Unknown"
