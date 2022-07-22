@@ -29,7 +29,7 @@ docker build --tag=my_project:latest --build-arg USE_CLANG=1 .
 ```
 
 You will be logged in as root, so you will see the `#` symbol as your prompt.
-You will be in a directory that contains a copy of the `cpp_starter_project`;
+You will be in a directory that contains a copy of the `eeelcollector`;
 any changes you make to your local copy will not be updated in the Docker image
 until you rebuild it.
 If you need to mount your local copy directly in the Docker image, see
@@ -65,7 +65,4 @@ All of the tools this project supports are installed in the Docker image;
 enabling them is as simple as flipping a switch using the `ccmake` interface.
 Be aware that some of the sanitizers conflict with each other, so be sure to
 run them separately.
-
-A script called `build_examples.sh` is provided to help you to build the example
-GUI projects in this container.
 

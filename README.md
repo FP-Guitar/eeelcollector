@@ -15,9 +15,23 @@ This project uses conan as dependency manager, which has to to usable and presen
 https://conan.io/
 
 
+# Notes on building, warnings ... etc
+## Warnings and build
+This cmake project is targeted to the latest compiler and software versions. E.g. gtest is build during configure step. 
+As gtest is a fairly old project, it will generate a lot of warnings. 
+I also had to adjust the warnings to include those headers with -Werror, -Wall etc...
+Normally I would try to find a way to encapsulate gtest a little more, but given the limited the time I'll take the
+short circuit.
+## CI
+Normally I would take the time to have a full ci pipeline running before starting any programming work. C++ is a difficult
+topic. Especially if you don't have paid subscriptions to gitlab/github or alternative jenkins available.
+Nevertheless, the first project setup is always very time consuming, compared to other languages.
+
+ 
 
 ## More Details
  * [Dependency Setup](README_dependencies.md)
  * [Building Details](README_building.md)
  * [Troubleshooting](README_troubleshooting.md)
  * [Docker](README_docker.md)
+ * 

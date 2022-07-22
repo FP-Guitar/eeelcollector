@@ -17,6 +17,7 @@ Checks: "*,
         -cppcoreguidelines-owning-memory,
         -cppcoreguidelines-special-member-functions,
         -hicpp-special-member-functions
+        -cppcoreguidelines-avoid-non-const-global-variables
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
