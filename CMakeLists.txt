@@ -118,7 +118,6 @@ dynamic_project_options(
 )
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
-# TODO: The INTERFACE library NAMESPACE ALIAS are missing! CK
 add_library(eeelcollector::project_options INTERFACE IMPORTED)
 add_library(eeelcollector::project_warnings INTERFACE IMPORTED)
 
@@ -162,8 +161,6 @@ endif()
 # Add other targets that you want installed here, be default we just package the one executable
 # we know we want to ship
 package_project(TARGETS intro project_options project_warnings
-  # FIXME: this does not work! CK
-  # PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
 )
 
 # Experience shows that explicit package naming can help make it easier to sort
