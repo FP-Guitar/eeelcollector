@@ -3,12 +3,11 @@
 #include <regex>
 namespace eeelcollector::dirwatcher {
 
-class FilenameMatcher
-{
-public:
+class FilenameMatcher {
+ public:
   FilenameMatcher();
-  bool operator()(const std::string& filename) const;
-private:
+  bool operator()(const std::string &filename) const;
+ private:
   std::regex filenameMatch_;
 };
 

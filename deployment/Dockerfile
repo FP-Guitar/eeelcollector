@@ -56,4 +56,4 @@ WORKDIR eeelcollector
 COPY --from=build eeelcollector/buildRelease/bin .
 
 
-ENTRYPOINT ["/eeelcollector/intro"]
+ENTRYPOINT ["/eeelcollector/eeelcollector"]

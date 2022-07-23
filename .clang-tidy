@@ -16,9 +16,10 @@ Checks: "*,
         -cert-err58-cpp,
         -cppcoreguidelines-owning-memory,
         -cppcoreguidelines-special-member-functions,
-        -hicpp-special-member-functions
-        -cppcoreguidelines-avoid-non-const-global-variables
+        -hicpp-special-member-functions,
+        -cppcoreguidelines-avoid-non-const-global-variables,
 "
+
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 FormatStyle:    none
