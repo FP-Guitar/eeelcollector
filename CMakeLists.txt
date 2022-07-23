@@ -14,8 +14,8 @@ set(CMAKE_CXX_EXTENSIONS ON)
 # is enabled and all warnings are treated as errors
 # if you want to switch this behavior, change TRUE to FALSE
 set(ENABLE_DEVELOPER_MODE
-    TRUE
-    CACHE BOOL "Enable 'developer mode'")
+	TRUE
+	CACHE BOOL "Enable 'developer mode'")
 
 # Change this to false if you want to disable warnings_as_errors in developer mode
 set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
@@ -27,51 +27,50 @@ FetchContent_Declare(_project_options URL https://github.com/aminya/project_opti
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
-
 # Set the project name and language
 project(
-  eeelcollector
-  VERSION 0.0.1
-  DESCRIPTION ""
-  HOMEPAGE_URL "https://github.com/FP-Guitar/eeelcollector"
-  LANGUAGES CXX C)
+	eeelcollector
+	VERSION 0.0.1
+	DESCRIPTION ""
+	HOMEPAGE_URL "https://github.com/FP-Guitar/eeelcollector"
+	LANGUAGES CXX C)
 
 # This variable is set by project() in CMake 3.21+
 string(
-  COMPARE EQUAL
-          "${CMAKE_SOURCE_DIR}"
-          "${PROJECT_SOURCE_DIR}"
-          PROJECT_IS_TOP_LEVEL)
+	COMPARE EQUAL
+	"${CMAKE_SOURCE_DIR}"
+	"${PROJECT_SOURCE_DIR}"
+	PROJECT_IS_TOP_LEVEL)
 set(GIT_SHA
-    "Unknown"
-    CACHE STRING "SHA this build was generated from")
+	"Unknown"
+	CACHE STRING "SHA this build was generated from")
 string(
-  SUBSTRING "${GIT_SHA}"
-            0
-            8
-            GIT_SHORT_SHA)
+	SUBSTRING "${GIT_SHA}"
+	0
+	8
+	GIT_SHORT_SHA)
 
 get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-if(BUILDING_MULTI_CONFIG)
-  if(NOT CMAKE_BUILD_TYPE)
-    # Make sure that all supported configuration types have their
-    # associated conan packages available. You can reduce this
-    # list to only the configuration types you use, but only if one
-    # is not forced-set on the command line for VS
-    message(TRACE "Setting up multi-config build types")
-    set(CMAKE_CONFIGURATION_TYPES
-        Debug
-        Release
-        RelWithDebInfo
-        MinSizeRel
-        CACHE STRING "Enabled build types" FORCE)
-  else()
-    message(TRACE "User chose a specific build type, so we are using that")
-    set(CMAKE_CONFIGURATION_TYPES
-        ${CMAKE_BUILD_TYPE}
-        CACHE STRING "Enabled build types" FORCE)
-  endif()
-endif()
+if (BUILDING_MULTI_CONFIG)
+	if (NOT CMAKE_BUILD_TYPE)
+		# Make sure that all supported configuration types have their
+		# associated conan packages available. You can reduce this
+		# list to only the configuration types you use, but only if one
+		# is not forced-set on the command line for VS
+		message(TRACE "Setting up multi-config build types")
+		set(CMAKE_CONFIGURATION_TYPES
+			Debug
+			Release
+			RelWithDebInfo
+			MinSizeRel
+			CACHE STRING "Enabled build types" FORCE)
+	else ()
+		message(TRACE "User chose a specific build type, so we are using that")
+		set(CMAKE_CONFIGURATION_TYPES
+			${CMAKE_BUILD_TYPE}
+			CACHE STRING "Enabled build types" FORCE)
+	endif ()
+endif ()
 
 include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 
@@ -89,28 +88,30 @@ include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 # This overwrites `project_options` and sets `project_warnings`
 # uncomment the options to enable them:
 dynamic_project_options(
-  # Note: PCH is disabled by default in developer mode because these headers become
-  # globally included and they can mask other errors
-  PCH_HEADERS
-  <vector>
-  <string> # This is a list of headers to pre-compile, here are some common ones
-  ENABLE_CONAN
-  # CONAN_OPTIONS    # Extra options to pass to conan
-  # MSVC_WARNINGS    # Override the defaults for the MSVC warnings
-  # CLANG_WARNINGS   # Override the defaults for the CLANG warnings
-  # GCC_WARNINGS     # Override the defaults for the GCC warnings
-  CPPCHECK_OPTIONS
-  --enable=style,performance,warning,portability
-  --inline-suppr
-  # We cannot act on a bug/missing feature of cppcheck
-  --suppress=cppcheckError
-  --suppress=internalAstError
-  # if a file does not have an internalAstError, we get an unmatchedSuppression error
-  --suppress=unmatchedSuppression
-  --suppress=passedByValue
-  --suppress=syntaxError
-  --inconclusive
+	# Note: PCH is disabled by default in developer mode because these headers become
+	# globally included and they can mask other errors
+	PCH_HEADERS
+	<vector>
+	<string> # This is a list of headers to pre-compile, here are some common ones
+	ENABLE_CONAN
+	# CONAN_OPTIONS    # Extra options to pass to conan
+	# MSVC_WARNINGS    # Override the defaults for the MSVC warnings
+	# CLANG_WARNINGS   # Override the defaults for the CLANG warnings
+	# GCC_WARNINGS     # Override the defaults for the GCC warnings
+	CPPCHECK_OPTIONS
+	--enable=style,performance,warning,portability
+	--inline-suppr
+	# We cannot act on a bug/missing feature of cppcheck
+	--suppress=cppcheckError
+	--suppress=internalAstError
+	# if a file does not have an internalAstError, we get an unmatchedSuppression error
+	--suppress=unmatchedSuppression
+	--suppress=passedByValue
+	--suppress=syntaxError
+	--inconclusive
 )
+# Adding the thirdparty libs:
+include(thirdparty/packages.cmake)
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 add_library(eeelcollector::project_options INTERFACE IMPORTED)
@@ -124,36 +125,35 @@ add_subdirectory(src)
 
 # Adding the tests:
 option(ENABLE_TESTING "Enable the tests" ${PROJECT_IS_TOP_LEVEL})
-if(ENABLE_TESTING)
-  enable_testing()
-  add_subdirectory(test)
-endif()
-
+if (ENABLE_TESTING)
+	enable_testing()
+	add_subdirectory(test)
+endif ()
 
 # warn people
-if(MSVC)
-  message(ERROR "MSVC is currently not built -> though not supported")
-endif()
+if (MSVC)
+	message(ERROR "MSVC is currently not built -> though not supported")
+endif ()
 
 # set the startup project for the "play" button in MSVC
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
 
-if(CMAKE_SKIP_INSTALL_RULES)
-  return()
-elseif(NOT PROJECT_IS_TOP_LEVEL)
-  return()
-endif()
+if (CMAKE_SKIP_INSTALL_RULES)
+	return()
+elseif (NOT PROJECT_IS_TOP_LEVEL)
+	return()
+endif ()
 
 # Add other targets that you want installed here, be default we just package the one executable
 # we know we want to ship
-package_project(TARGETS intro project_options project_warnings
-)
+package_project(TARGETS eeelcollector project_options project_warnings
+	)
 
 # Experience shows that explicit package naming can help make it easier to sort
 # out potential ABI related issues before they start, while helping you
 # track a build to a specific GIT SHA
 set(CPACK_PACKAGE_FILE_NAME
-    "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
-)
+	"${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
+	)
 
 include(CPack)
