@@ -19,14 +19,15 @@ void signal_handler(int posixSignal) {
   (void)posixSignal;
   run = false;
 }
-
+const int STARTUPFAILURE = 1;
+const int UNHANDLED_EXCEPTION = 2;
 
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv) {
-  auto err = std::signal(SIGINT,signal_handler);
-  if  (err == SIG_ERR ) {
+  auto err = std::signal(SIGINT, signal_handler);
+  if (err == SIG_ERR) {
 	spdlog::error("Failure catching sigint");
-	return 1;
+	return STARTUPFAILURE;
   }
 
   try {
@@ -50,18 +51,16 @@ int main(int argc, const char **argv) {
 
 	auto watchTask = eeelcollector::filewatchcontrol::WatchTriggerDirectoryTask(pathToWatch);
 	using namespace std::chrono_literals;
-	while(run) {
+	while (run) {
 	  watchTask.CheckDirectory();
 	  std::this_thread::sleep_for(1s);
 
 	  spdlog::info("Polling....");
 	}
-	if (watchDirectory) {
-	  fmt::print("Message: '{}'\n", *watchDirectory);
-	} else {
-	  fmt::print("No Message Provided :(\n");
-	}
+	spdlog::info("Shutting down...");
   } catch (const std::exception &e) {
 	spdlog::error("Unhandled exception in main: {}", e.what());
+	return UNHANDLED_EXCEPTION;
   }
+  return 0;
 }
