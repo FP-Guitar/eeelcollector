@@ -5,12 +5,14 @@ it is a little disapointing, as a lot of the ci stuff seems not to be working co
 github repositories.
 
 ## Limitations 
-- I am used to gitlab ci so I skipped the part of fixing the pipeline. Especially, as I completly consumed my monthly minute limit
+- I am used to gitlab ci so I skipped the part of fixing the pipeline. Especially, as I completely consumed my monthly minute limit
 with the first runs.
 - ~~ I am only builing currently on gcc9, as I don't have the time for setting up a multi compiler regression ~~
 - I switched to Unbuntu 22.04 remote and deployment environment for having a recent gcc, as I decided to use this project
-  to familiarize myself a little with ranges and other c++20 concepts. I do not like to hazzle around with glibc/abi and
+  to familiarize myself a little with ranges and other new c++20 features. I do not like to hazzle around with glibc/abi and
   other issues, for this reason I like to keep deployment and compile environment as close as possible.
+  - Notes:
+    - ranges still not supported sufficiently with clang, which makes running clang-tidy impossible. Won't use ranges. :(
 
 # Dependency Management
 This project uses conan as dependency manager, which has to to usable and present in the system. 

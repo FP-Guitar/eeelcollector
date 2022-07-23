@@ -42,6 +42,7 @@ RUN apt-get update \
       vim \
   && apt-get clean
 RUN apt-get install -y python3-pip clang-tidy
+RUN apt-get install -y ccache
 
 RUN pip3 install conan
 
