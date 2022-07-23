@@ -30,9 +30,4 @@ add_test(NAME cli.version_matches COMMAND intro --version)
 set_tests_properties(cli.version_matches PROPERTIES PASS_REGULAR_EXPRESSION "${PROJECT_VERSION}")
 
 
-add_executable(google_smoke_test google_smoke_test.cpp)
-target_link_libraries(google_smoke_test PRIVATE GTest::gtest_main eeelcollector::project_options eeelcollector::project_warnings)
-gtest_discover_tests(google_smoke_test)
-
-
 add_subdirectory(dirwatcher)

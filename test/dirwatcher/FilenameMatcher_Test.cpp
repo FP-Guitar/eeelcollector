@@ -5,13 +5,6 @@
 
 using namespace eeelcollector::dirwatcher;
 
-
-TEST(FilenameMatcher, CreateFilenameMatcher)
-{
-  auto matcher = FilenameMatcher();
-  (void)matcher;
-}
-
 TEST(FilenameMatcher, InvalidFileName)
 {
   auto isMatch = FilenameMatcher();
