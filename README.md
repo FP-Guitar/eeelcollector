@@ -1,19 +1,29 @@
 # eeelcollector
 This is the implementation of a coding challenge. It sacrifices project setup for development speed. It is based
 on jason turners cpp best practies project. (https://github.com/cpp-best-practices/cppbestpractices) Unfortunately,
-the github pipeline seems to be broken for gcc11 builds in the latest template release. 
+it is a little disapointing, as a lot of the ci stuff seems not to be working correctly on unpaid private 
+github repositories.
 
 ## Limitations 
 - I am used to gitlab ci so I skipped the part of fixing the pipeline. Especially, as I completly consumed my monthly minute limit
 with the first runs.
-- I am only builing currently on gcc9, as I don't have the time for setting up a multi compiler regression
-
-Even with this limitations I get at least a manual asan and a usable set of standard compiler flags for the build types.
+- ~~ I am only builing currently on gcc9, as I don't have the time for setting up a multi compiler regression ~~
+- I switched to Unbuntu 22.04 remote and deployment environment for having a recent gcc, as I decided to use this project
+  to familiarize myself a little with ranges and other c++20 concepts. I do not like to hazzle around with glibc/abi and
+  other issues, for this reason I like to keep deployment and compile environment as close as possible.
 
 # Dependency Management
 This project uses conan as dependency manager, which has to to usable and present in the system. 
 https://conan.io/
 
+# Building release
+Prerequiste: Docker installed
+From directory root:
+`docker build  . -f deployment/Dockerfile -t eeelcollector:latest`
+
+# Development
+Use the docker file in `development` for a usable environment. Intended use is with CLion full remote mode.
+https://www.jetbrains.com/help/clion/remote-projects-support.html
 
 # Notes on building, warnings ... etc
 ## Warnings and build

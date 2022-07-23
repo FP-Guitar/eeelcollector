@@ -1,7 +1,7 @@
-//
-// Created by fabian-fp-bdim on 22.07.22.
-//
+
+#include <iostream>
 #include <gtest/gtest.h>
 
-TEST(Foo, AssertFoo) { EXPECT_TRUE(false); }
+TEST(Foo, AssertFoo) { EXPECT_TRUE(true); }
+
 
