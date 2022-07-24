@@ -32,3 +32,4 @@ set_tests_properties(cli.version_matches PROPERTIES PASS_REGULAR_EXPRESSION "${P
 add_subdirectory(dirwatcher)
 add_subdirectory(filewatchcontrol)
 add_subdirectory(util)
+add_subdirectory(datacollector)

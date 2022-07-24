@@ -1,6 +1,6 @@
 #include <dirwatcher/DirectoryFileListRetriever.h>
 #include <gtest/gtest.h>
-#include <util.h>
+#include <testutil.h>
 
 using namespace eeelcollector::dirwatcher;
 TEST(DirectoryFileListRetriever, CreateFileListRetriever) {

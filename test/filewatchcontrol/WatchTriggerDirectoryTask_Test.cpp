@@ -1,7 +1,7 @@
 
 #include <filewatchcontrol/WatchTriggerDirectoryTask.h>
 #include <gtest/gtest.h>
-#include <util.h>
+#include <testutil.h>
 
 using namespace eeelcollector::filewatchcontrol;
 TEST(FilewatchControl, WatchTriggerDirectoryTaskEmptyDirectory) {

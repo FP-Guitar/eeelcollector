@@ -1,4 +1,4 @@
-#include "util.h"
+#include "testutil.h"
 std::filesystem::path getResourcesPath() {
 #ifndef RESOURCES
   return {};
