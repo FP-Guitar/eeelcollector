@@ -3,7 +3,7 @@
 #include <dirwatcher/DirectoryFileListRetriever.h>
 #include <dirwatcher/TriggerFileCache.h>
 
-namespace eeelcollector::filewatchcontrol {
+namespace eeelcollector::appcontrol {
 using TriggerFileDetected = bool;
 class WatchTriggerDirectoryTask {
  public:

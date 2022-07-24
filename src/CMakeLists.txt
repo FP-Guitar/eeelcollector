@@ -1,3 +1,4 @@
 add_subdirectory(eeelcollector)
 add_subdirectory(dirwatcher)
-add_subdirectory(filewatchcontrol)
+add_subdirectory(appcontrol)
+add_subdirectory(datacollector)

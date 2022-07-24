@@ -4,6 +4,8 @@
 gtest/1.10.0
 cli11/2.2.0
 spdlog/1.10.0
+nlohmann_json/3.10.5
+stduuid/1.2.2
 
 [generators]
 cmake_find_package_multi
