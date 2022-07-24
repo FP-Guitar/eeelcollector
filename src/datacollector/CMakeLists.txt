@@ -3,7 +3,9 @@ set(TARGET_NAME datacollector)
 add_library(${TARGET_NAME}
 	util.cpp
 	CollectDiskUsageWithSTL.cpp
+	CollectFilesAtTarget.cpp
 	include/datacollector/DataCollector.hpp
+	include/datacollector/CollectFilesAtTarget.hpp
 	include/datacollector/CollectionInfoObject.hpp
 	include/datacollector/CollectAvailableSpaceWithSTL.hpp
 	include/datacollector/util.h

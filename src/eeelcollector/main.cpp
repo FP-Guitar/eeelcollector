@@ -1,7 +1,6 @@
 #include <optional>
 #include <csignal>
 
-#include <CLI/CLI.hpp>
 #include <spdlog/spdlog.h>
 #include <thread>
 
@@ -12,10 +11,17 @@
 #include <vector>
 #include <appcontrol/WatchTriggerDirectoryTask.h>
 #include <appcontrol/Configuration.hpp>
-#include <atomic>
-#include <string>
+#include <appcontrol/CollectFilesTask.hpp>
 
+#include <datacollector/CollectFilesAtTarget.hpp>
+#include <datacollector/CollectAvailableSpaceWithSTL.hpp>
+#include <datacollector/util.h>
+#include <atomic>
+#include <future>
+
+using namespace eeelcollector;
 std::atomic_bool run(true);
+void CollectData(appcontrol::Configuration const &config);
 void signal_handler(int posixSignal) {
   (void)posixSignal;
   run = false;
@@ -35,7 +41,7 @@ int main(int argc, const char **argv) {
   }
 
   try {
-	auto config = eeelcollector::appcontrol::ParseArguments(argc,argv);
+	auto config = eeelcollector::appcontrol::ParseArguments(argc, argv);
 	if (config.errorParsing) {
 	  return config.returnCodeParsing;
 	}
@@ -48,15 +54,39 @@ int main(int argc, const char **argv) {
 	auto watchTask = eeelcollector::appcontrol::WatchTriggerDirectoryTask(config.watchDirectory);
 	using namespace std::chrono_literals;
 	while (run) {
-	  watchTask.CheckDirectory();
-	  std::this_thread::sleep_for(1s);
-
 	  spdlog::info("Polling....");
-	}
+	  if (watchTask.CheckDirectory() ) {
+		CollectData(config);
+	  }
+	  std::this_thread::sleep_for(1s);
+	  }
+
+
 	spdlog::info("Shutting down...");
   } catch (const std::exception &e) {
 	spdlog::error("Unhandled exception in main: {}", e.what());
 	return UNHANDLED_EXCEPTION;
   }
   return 0;
+}
+void CollectData(appcontrol::Configuration const &config) {
+  std::vector<std::future<datacollector::CollectionInfoObject>> collectedData{};
+  for (const auto &path : config.pathsToCollectDataFrom) {
+	spdlog::info("Starting collection on: {}", path.filename().c_str());
+	std::vector<std::unique_ptr<datacollector::DataCollector>> collectors{};
+	collectors.push_back(std::make_unique<datacollector::CollectFilesAtTarget>());
+	collectors.push_back(std::make_unique<datacollector::CollectAvailableSpaceWithSTL>());
+	collectedData.push_back(std::async(&appcontrol::CollectFilesTask::Collect,
+									   appcontrol::CollectFilesTask(std::move(collectors), path)));
+  }
+  for (std::future<datacollector::CollectionInfoObject> &result : collectedData) {
+	try {
+	  auto res = result.get();
+	  spdlog::info("Getting result from: {}", res.collectionTarget.c_str());
+	  spdlog::info(datacollector::util::ConvertToJson(res));
+	}catch(std::runtime_error & e)
+	{
+		spdlog::error("Failure collection... {}", e.what());
+	  }
+	}
 }

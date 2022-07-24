@@ -10,7 +10,7 @@ struct Configuration {
   std::vector<std::filesystem::path> pathsToCollectDataFrom;
   std::filesystem::path outputDirectory;
   std::filesystem::path watchDirectory;
-  spdlog::level::level_enum logLevel;
+  spdlog::level::level_enum logLevel = spdlog::level::info;
   bool showVersion = false;
 };
 Configuration ParseArguments(int argc, const char **argv);

@@ -23,9 +23,6 @@ Configuration ParseArguments(int argc, const char **argv) {
 
   std::vector<std::filesystem::path> files;
   app.add_option<std::vector<std::filesystem::path>>("-c,--collect-list",files, "The list of files to capture data from");
-  config.pathsToCollectDataFrom = files;
-
-
   try {
 	app.parse(argc, argv);
   }
@@ -42,9 +39,8 @@ Configuration ParseArguments(int argc, const char **argv) {
   if (watchDirectory) {
 	config.watchDirectory = std::filesystem::path(*watchDirectory);
   }
-  for (const auto& file : files) {
-	std::cout << file.filename();
-  }
+
+  config.pathsToCollectDataFrom = files;
 
   return config;
 }
