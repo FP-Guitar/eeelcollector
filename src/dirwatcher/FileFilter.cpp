@@ -7,11 +7,7 @@ std::vector<std::filesystem::path> eeelcollector::dirwatcher::FileFilter::Filter
 	const std::vector<std::filesystem::path> &pathList) {
   auto match = FilenameMatcher();
   auto filtered = std::vector<std::filesystem::path>();
-  for (const auto &path : pathList) {
-	if (match(path.filename().string())) {
-	  filtered.push_back(path);
-	}
-  }
+  std::copy_if(pathList.begin(),pathList.end(), std::inserter(filtered, filtered.begin()), match);
   return filtered;
 }
 }

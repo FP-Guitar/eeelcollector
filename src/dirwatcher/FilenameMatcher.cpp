@@ -7,8 +7,8 @@ FilenameMatcher::FilenameMatcher() : filenameMatch_{R"((?:core(?:\.\w*)\.)(?:[ab
 
 }
 
-bool FilenameMatcher::operator()(const std::string &filename) const {
-  return std::regex_match(filename, filenameMatch_);
-};
+bool FilenameMatcher::operator()(const std::filesystem::path &filename) const {
+  return std::regex_match(filename.filename().string(), filenameMatch_);
+}
 
 }

@@ -1,16 +1,8 @@
 #include <dirwatcher/DirectoryFileListRetriever.h>
 #include <gtest/gtest.h>
+#include <util.h>
 
-std::filesystem::path getResourcesPath() {
-#ifndef RESOURCES
-  return {};
-#else
-  return std::filesystem::path{RESOURCES};
-#endif
-}
 using namespace eeelcollector::dirwatcher;
-TEST(DirectoryFileListRetriever, GetResourcesDirectory) { EXPECT_TRUE(is_directory(getResourcesPath())); }
-
 TEST(DirectoryFileListRetriever, CreateFileListRetriever) {
   auto emptyPath = std::filesystem::path();
   auto retriever = DirectoryFileListRetriever(emptyPath);
@@ -32,6 +24,7 @@ TEST(DirectoryFileListRetriever, GetFileListDirectoryDoesNotExist) {
   auto fileLister = DirectoryFileListRetriever(invalidPath);
 
   // workaround for [[no discard]]
+  // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto,hicpp-avoid-goto)
   EXPECT_THROW(
 	  {
 		auto foo = fileLister.GetFiles();
@@ -46,6 +39,7 @@ TEST(DirectoryFileListRetriever, GetFileListDirectoryIsAFile) {
   auto fileLister = DirectoryFileListRetriever(pathToFile);
 
   // workaround for [[no discard]]
+  // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto,hicpp-avoid-goto)
   EXPECT_THROW(
 	  {
 		auto foo = fileLister.GetFiles();
