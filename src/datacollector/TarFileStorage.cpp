@@ -8,7 +8,7 @@
 #include <sstream>
 #include <utility>
 void eeelcollector::datacollector::TarFileStorage::StoreObject(const eeelcollector::datacollector::CollectionInfoObject &object) const {
-  // THIS IS VERY VERY HACKY
+  // THIS IS VERY VERY HACKY , don't tell my parents
   std::stringstream tarDiredtory;
   tarDiredtory << "tar ";
   tarDiredtory << "-cf ";

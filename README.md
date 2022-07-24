@@ -18,12 +18,11 @@ with the first runs.
 ### Functionaliy:
 #### Trigger
 - Will allow core.ServiceName.digits...lz4 and core.digits.lz4. The first name is, if not taking the example into account not valid
-- Recreating a file will not trigger collection again
 - Deleting and recreating a file will trigger collection. 
 - Trying to monitor an non existing or non directory directory for trigger fails will produce a lot of error logs. Assumption.
   Directory may be temporarily unavailable. Didn't implement corner case of initialization.
-- No persistance between service restarts
-- Starting the service will always trigger a new file event
+- No persistence between service restarts
+- 
 # Dependency Management
 This project uses conan as dependency manager, which has to to usable and present in the system. 
 https://conan.io/
@@ -33,6 +32,12 @@ Prerequiste: Docker installed
 From directory root:
 `docker build  . -f deployment/Dockerfile -t eeelcollector:latest`
 
+example of running
+
+```fish
+docker run --user (id -u):(id -g) -v /tmp/output:/output -v  /tmp/foo:/watchme -v /tmp/collect:/collect -it eeelcollector -w /watchme -c /collect/directory  /collect/file.txt -l 0 -o /output
+- 
+```
 # Development
 Use the docker file in `development` for a usable environment. Intended use is with CLion full remote mode.
 https://www.jetbrains.com/help/clion/remote-projects-support.html
