@@ -52,10 +52,13 @@ std::string eeelcollector::datacollector::util::CreateUniqueIdentifierFromPath(c
   std::mt19937 generator(randomdDevice());
   auto gen = uuids::basic_uuid_random_generator{&generator};
   std::stringstream identifier;
-  identifier << path.filename().string();
-  identifier << '.';
+  if (is_directory(path)) {
+	identifier << path.parent_path().filename().string();
+  } else {
+	identifier << path.filename().string();
+  }
   auto now = std::chrono::system_clock::now();
-  identifier << '.';
+  identifier << '-';
 
   identifier << std::to_string(now.time_since_epoch().count());
   identifier << gen();

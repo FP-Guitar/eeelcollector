@@ -12,6 +12,7 @@
 #include <appcontrol/WatchTriggerDirectoryTask.h>
 #include <appcontrol/Configuration.hpp>
 #include <appcontrol/CollectFilesTask.hpp>
+#include <datacollector/TarFileStorage.hpp>
 
 #include <datacollector/CollectFilesAtTarget.hpp>
 #include <datacollector/CollectAvailableSpaceWithSTL.hpp>
@@ -78,15 +79,22 @@ void DoFileWatching(appcontrol::Configuration const &config) {
   }
 }
 
+datacollector::CollectionInfoObject CollectData( const std::filesystem::path& target, const std::filesystem::path& outputDirectory) {
+  spdlog::info("Starting collection on: {}", target.filename().c_str());
+  std::vector<std::unique_ptr<datacollector::DataCollector>> collectors{};
+  collectors.push_back(std::make_unique<datacollector::CollectFilesAtTarget>());
+  collectors.push_back(std::make_unique<datacollector::CollectAvailableSpaceWithSTL>());
+  auto task  =appcontrol::CollectFilesTask(std::move(collectors), target);
+  auto result = task.Collect();
+  datacollector::TarFileStorage(outputDirectory).StoreObject(result);
+  return result;
+}
+
 void CollectData(appcontrol::Configuration const &config) {
   std::vector<std::future<datacollector::CollectionInfoObject>> collectedData{};
   for (const auto &path : config.pathsToCollectDataFrom) {
-	spdlog::info("Starting collection on: {}", path.filename().c_str());
-	std::vector<std::unique_ptr<datacollector::DataCollector>> collectors{};
-	collectors.push_back(std::make_unique<datacollector::CollectFilesAtTarget>());
-	collectors.push_back(std::make_unique<datacollector::CollectAvailableSpaceWithSTL>());
-	collectedData.push_back(std::async(&appcontrol::CollectFilesTask::Collect,
-									   appcontrol::CollectFilesTask(std::move(collectors), path)));
+	auto directory = config.outputDirectory;
+	collectedData.push_back(std::async([path,directory]()-> auto {return CollectData(path,directory);}));
   }
   for (std::future<datacollector::CollectionInfoObject> &result : collectedData) {
 	try {
