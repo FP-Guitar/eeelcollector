@@ -1,7 +1,6 @@
 #include <dirwatcher/FilenameMatcher.h>
 #include <gtest/gtest.h>
 #include <list>
-#include <string>
 
 using namespace eeelcollector::dirwatcher;
 

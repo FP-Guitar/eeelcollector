@@ -1,13 +1,8 @@
 
 #include <filewatchcontrol/WatchTriggerDirectoryTask.h>
 #include <gtest/gtest.h>
-std::filesystem::path getResourcesPath() {
-#ifndef RESOURCES
-  return {};
-#else
-  return std::filesystem::path{RESOURCES};
-#endif
-}
+#include <util.h>
+
 using namespace eeelcollector::filewatchcontrol;
 TEST(FilewatchControl, WatchTriggerDirectoryTaskEmptyDirectory) {
   auto task = WatchTriggerDirectoryTask(std::filesystem::path{});
