@@ -1,8 +1,8 @@
 
-#include "include/filewatchcontrol/WatchTriggerDirectoryTask.h"
+#include "include/appcontrol/WatchTriggerDirectoryTask.h"
 #include <spdlog/spdlog.h>
 #include <dirwatcher/FileFilter.h>
-namespace eeelcollector::filewatchcontrol {
+namespace eeelcollector::appcontrol {
 
 WatchTriggerDirectoryTask::WatchTriggerDirectoryTask(std::filesystem::path pathToWatch) :
 pathToWatch_(std::move(pathToWatch))

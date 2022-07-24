@@ -10,7 +10,7 @@
 // You can modify the source template at `configured_files/config.hpp.in`.
 #include "internal_use_only/config.hpp"
 #include <vector>
-#include <filewatchcontrol/WatchTriggerDirectoryTask.h>
+#include <appcontrol/WatchTriggerDirectoryTask.h>
 #include <atomic>
 #include <string>
 
@@ -52,7 +52,7 @@ int main(int argc, const char **argv) {
 	  pathToWatch = std::filesystem::path(*watchDirectory);
 	}
 
-	auto watchTask = eeelcollector::filewatchcontrol::WatchTriggerDirectoryTask(pathToWatch);
+	auto watchTask = eeelcollector::appcontrol::WatchTriggerDirectoryTask(pathToWatch);
 	using namespace std::chrono_literals;
 	while (run) {
 	  watchTask.CheckDirectory();

@@ -1,9 +1,9 @@
 
-#include <filewatchcontrol/WatchTriggerDirectoryTask.h>
+#include <appcontrol/WatchTriggerDirectoryTask.h>
 #include <gtest/gtest.h>
 #include <testutil.h>
 
-using namespace eeelcollector::filewatchcontrol;
+using namespace eeelcollector::appcontrol;
 TEST(FilewatchControl, WatchTriggerDirectoryTaskEmptyDirectory) {
   auto task = WatchTriggerDirectoryTask(std::filesystem::path{});
   EXPECT_FALSE(task.CheckDirectory());
