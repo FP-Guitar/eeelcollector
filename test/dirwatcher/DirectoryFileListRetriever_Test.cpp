@@ -32,6 +32,7 @@ TEST(DirectoryFileListRetriever, GetFileListDirectoryDoesNotExist) {
   auto fileLister = DirectoryFileListRetriever(invalidPath);
 
   // workaround for [[no discard]]
+  // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto,hicpp-avoid-goto)
   EXPECT_THROW(
 	  {
 		auto foo = fileLister.GetFiles();
@@ -46,6 +47,7 @@ TEST(DirectoryFileListRetriever, GetFileListDirectoryIsAFile) {
   auto fileLister = DirectoryFileListRetriever(pathToFile);
 
   // workaround for [[no discard]]
+  // NOLINTNEXTLINE(cppcoreguidelines-avoid-goto,hicpp-avoid-goto)
   EXPECT_THROW(
 	  {
 		auto foo = fileLister.GetFiles();

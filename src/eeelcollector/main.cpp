@@ -25,6 +25,9 @@ const int UNHANDLED_EXCEPTION = 2;
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv) {
   auto err = std::signal(SIGINT, signal_handler);
+
+  // gcc9 uses some strange casting here
+// NOLINTNEXTLINE(cppcoreguidelines-pro-type-cstyle-cast)
   if (err == SIG_ERR) {
 	spdlog::error("Failure catching sigint");
 	return STARTUPFAILURE;
