@@ -20,10 +20,13 @@
 #include <future>
 
 using namespace eeelcollector;
-std::atomic_bool run(true);
 void CollectData(appcontrol::Configuration const &config);
+void DoFileWatching(appcontrol::Configuration const &config);
+// This is probably not the best way, but I never used sigaction. But this is still better
+// Than unhandled sigint.
+std::atomic_bool run(true);
 void signal_handler(int posixSignal) {
-  (void)posixSignal;
+  static_cast<void>(posixSignal);
   run = false;
 }
 const int STARTUPFAILURE = 1;
@@ -50,17 +53,10 @@ int main(int argc, const char **argv) {
 	  fmt::print("{}\n", eeelcollector::cmake::project_version);
 	  return EXIT_SUCCESS;
 	}
+	spdlog::info(fmt::format("Setting loglevel to {}", config.logLevel));
+	spdlog::set_level(config.logLevel);
 
-	auto watchTask = eeelcollector::appcontrol::WatchTriggerDirectoryTask(config.watchDirectory);
-	using namespace std::chrono_literals;
-	while (run) {
-	  spdlog::info("Polling....");
-	  if (watchTask.CheckDirectory() ) {
-		CollectData(config);
-	  }
-	  std::this_thread::sleep_for(1s);
-	  }
-
+	DoFileWatching(config);
 
 	spdlog::info("Shutting down...");
   } catch (const std::exception &e) {
@@ -69,6 +65,19 @@ int main(int argc, const char **argv) {
   }
   return 0;
 }
+
+void DoFileWatching(appcontrol::Configuration const &config) {
+  auto watchTask = eeelcollector::appcontrol::WatchTriggerDirectoryTask(config.watchDirectory);
+  using namespace std::chrono_literals;
+  while (run) {
+	spdlog::info("Polling....");
+	if (watchTask.CheckDirectory()) {
+	  CollectData(config);
+	}
+	std::this_thread::sleep_for(1s);
+  }
+}
+
 void CollectData(appcontrol::Configuration const &config) {
   std::vector<std::future<datacollector::CollectionInfoObject>> collectedData{};
   for (const auto &path : config.pathsToCollectDataFrom) {
@@ -84,9 +93,8 @@ void CollectData(appcontrol::Configuration const &config) {
 	  auto res = result.get();
 	  spdlog::info("Getting result from: {}", res.collectionTarget.c_str());
 	  spdlog::info(datacollector::util::ConvertToJson(res));
-	}catch(std::runtime_error & e)
-	{
-		spdlog::error("Failure collection... {}", e.what());
-	  }
+	} catch (std::runtime_error &e) {
+	  spdlog::error("Failure collection... {}", e.what());
 	}
+  }
 }

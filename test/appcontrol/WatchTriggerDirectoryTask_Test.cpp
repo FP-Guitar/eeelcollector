@@ -15,6 +15,6 @@ TEST(FilewatchControl, WatchTriggerDirectoryTaskCorrectDirectory) {
 }
 
 TEST(FilewatchControl, WatchTriggerDirectoryTaskCorrectDirectoryWithCorrectFile) {
-  auto task = WatchTriggerDirectoryTask(getResourcesPath()/="filelistscenario/c");
+  auto task = WatchTriggerDirectoryTask(getResourcesPath() /= "filelistscenario/c");
   EXPECT_TRUE(task.CheckDirectory());
 }

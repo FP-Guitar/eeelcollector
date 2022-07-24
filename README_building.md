@@ -24,7 +24,7 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 
 	- Temporarily (only for the current shell)
 
-		Run one of the followings in the terminal:
+		DoFileWatching one of the followings in the terminal:
 
 		- clang
 
@@ -51,7 +51,7 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 
 	- Permanent:
 
-		Run one of the followings in PowerShell:
+		DoFileWatching one of the followings in PowerShell:
 
 		- Visual Studio generator and compiler (cl)
 

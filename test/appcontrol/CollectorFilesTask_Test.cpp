@@ -18,8 +18,8 @@ TEST(CollectorTaskTest, ExampleScenario) {
   auto scenarioPath = getResourcesPath() /= "filelistscenario";
   std::vector<std::unique_ptr<DataCollector>> collectors{};
   collectors.push_back(std::make_unique<MockDataCollector>("b")),
-  collectors.push_back(std::make_unique<MockDataCollector>("a"));
-  CollectFilesTask task{std::move(collectors),scenarioPath};
+	  collectors.push_back(std::make_unique<MockDataCollector>("a"));
+  CollectFilesTask task{std::move(collectors), scenarioPath};
   auto infoObject = task.Collect();
   EXPECT_TRUE(infoObject.additionalInformation.contains("a"));
   EXPECT_TRUE(infoObject.additionalInformation.contains("b"));
