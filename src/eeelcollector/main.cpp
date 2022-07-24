@@ -11,6 +11,7 @@
 #include "internal_use_only/config.hpp"
 #include <vector>
 #include <appcontrol/WatchTriggerDirectoryTask.h>
+#include <appcontrol/Configuration.hpp>
 #include <atomic>
 #include <string>
 
@@ -34,25 +35,17 @@ int main(int argc, const char **argv) {
   }
 
   try {
-	CLI::App app{fmt::format(
-		"{} version {}", eeelcollector::cmake::project_name, eeelcollector::cmake::project_version)};
+	auto config = eeelcollector::appcontrol::ParseArguments(argc,argv);
+	if (config.errorParsing) {
+	  return config.returnCodeParsing;
+	}
 
-	std::optional<std::string> watchDirectory;
-	app.add_option("-w,--watch-directory", watchDirectory, "The directory to watch for files");
-	bool show_version = false;
-	app.add_flag("--version", show_version, "Show version information");
-	CLI11_PARSE(app, argc, argv);
-
-	if (show_version) {
+	if (config.showVersion) {
 	  fmt::print("{}\n", eeelcollector::cmake::project_version);
 	  return EXIT_SUCCESS;
 	}
-	auto pathToWatch = std::filesystem::path(".");
-	if (watchDirectory) {
-	  pathToWatch = std::filesystem::path(*watchDirectory);
-	}
 
-	auto watchTask = eeelcollector::appcontrol::WatchTriggerDirectoryTask(pathToWatch);
+	auto watchTask = eeelcollector::appcontrol::WatchTriggerDirectoryTask(config.watchDirectory);
 	using namespace std::chrono_literals;
 	while (run) {
 	  watchTask.CheckDirectory();

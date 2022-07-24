@@ -16,6 +16,7 @@ std::vector<std::filesystem::path> eeelcollector::datacollector::util::GetRecurs
 std::string eeelcollector::datacollector::util::ConvertToJson(const eeelcollector::datacollector::CollectionInfoObject &obj) {
   const char *collectionTargetFieldName = "collectionTarget";
   const char *additionalTargetFieldName = "additionalInformation";
+  const char *fileListFileListName = "fileList";
   const int prettyPrintIndent = 4;
 
   nlohmann::json json;
@@ -27,6 +28,17 @@ std::string eeelcollector::datacollector::util::ConvertToJson(const eeelcollecto
 	for (const auto &keyValuePair : obj.additionalInformation) {
 	  json[additionalTargetFieldName][keyValuePair.first] = keyValuePair.second;
 	}
+  }
+  if (obj.collectedFiles.empty()) {
+	json[fileListFileListName] = nlohmann::json::array();
+  } else {
+	auto fileList = nlohmann::json::array();
+	std::transform(obj.collectedFiles.begin(),
+				   obj.collectedFiles.end(),
+				   std::inserter(fileList, fileList.begin()),
+				   [](const std::filesystem::path &pat) { return pat.string(); });
+
+	json[fileListFileListName] = fileList;
   }
   return json.dump(prettyPrintIndent);
 }

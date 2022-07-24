@@ -21,6 +21,7 @@ TEST(UtilTest, ConvertToJsonCheckStructure) {
   auto json = nlohmann::json::parse(jsonString);
   EXPECT_TRUE(json.contains("collectionTarget"));
   EXPECT_TRUE(json.contains("additionalInformation"));
+  EXPECT_TRUE(json.contains("fileList"));
 }
 
 TEST(UtilTest, ConvertToJsonCheckValues) {
@@ -28,13 +29,16 @@ TEST(UtilTest, ConvertToJsonCheckValues) {
   information.collectionTarget = std::filesystem::path("FooBar");
   information.additionalInformation["A"] ="A";
   information.additionalInformation["CT5555"] ="Fives";
+  information.collectedFiles = std::vector<std::filesystem::path>{"a","b"};
 
   auto jsonString = util::ConvertToJson(information);
   auto json = nlohmann::json::parse(jsonString);
   EXPECT_EQ(json["collectionTarget"], "FooBar");
   EXPECT_EQ(json["additionalInformation"]["A"], "A");
   EXPECT_EQ(json["additionalInformation"]["CT5555"], "Fives");
+  EXPECT_EQ(json["fileList"][0], "a");
 }
+
 
 TEST(UtilTest, CreateUniqueIdentifierFromPath) {
   auto path = std::filesystem::path("Foo");
