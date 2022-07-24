@@ -12,12 +12,12 @@ TEST(CollectDiskUsageTest, UseStlWithDirectory) {
 
   CollectAvailableSpaceWithSTL collector;
   collector.CollectData(infoObject);
-  EXPECT_EQ(infoObject.additionalInformation.size(),3);
+  EXPECT_EQ(infoObject.additionalInformation.size(), 3);
   EXPECT_TRUE(infoObject.additionalInformation.contains("available"));
   EXPECT_TRUE(infoObject.additionalInformation.contains("free"));
   EXPECT_TRUE(infoObject.additionalInformation.contains("capacity"));
 
-  for (const auto& kevalues : infoObject.additionalInformation) {
+  for (const auto &kevalues : infoObject.additionalInformation) {
 	std::cout << kevalues.first << ':' << kevalues.second << std::endl;
   }
 }
@@ -29,12 +29,12 @@ TEST(CollectDiskUsageTest, UseStlWithDirectoryFile) {
 
   CollectAvailableSpaceWithSTL collector;
   collector.CollectData(infoObject);
-  EXPECT_EQ(infoObject.additionalInformation.size(),3);
+  EXPECT_EQ(infoObject.additionalInformation.size(), 3);
   EXPECT_TRUE(infoObject.additionalInformation.contains("available"));
   EXPECT_TRUE(infoObject.additionalInformation.contains("free"));
   EXPECT_TRUE(infoObject.additionalInformation.contains("capacity"));
 
-  for (const auto& kevalues : infoObject.additionalInformation) {
+  for (const auto &kevalues : infoObject.additionalInformation) {
 	std::cout << kevalues.first << ':' << kevalues.second << std::endl;
   }
 }

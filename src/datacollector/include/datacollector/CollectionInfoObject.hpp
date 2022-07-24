@@ -6,7 +6,7 @@
 namespace eeelcollector::datacollector {
 struct CollectionInfoObject {
   std::filesystem::path collectionTarget;
-  std::map<std::string,std::string> additionalInformation;
+  std::map<std::string, std::string> additionalInformation;
   std::vector<std::filesystem::path> collectedFiles;
 };
 }

@@ -14,7 +14,7 @@ class util {
   // Will convert the json info object into a serialized json string
   [[nodiscard]]static std::string ConvertToJson(const CollectionInfoObject &obj);
   // Will have the form filename.unixseconds.uuid4
-  [[nodiscard]]static std::string CreateUniqueIdentifierFromPath(const std::filesystem::path& path);
+  [[nodiscard]]static std::string CreateUniqueIdentifierFromPath(const std::filesystem::path &path);
 };
 }
 

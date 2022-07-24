@@ -1,11 +1,14 @@
 #include "include/datacollector/util.h"
-#include "include/datacollector/DataCollector.hpp"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <chrono>
 #include <uuid.h>
 
 std::vector<std::filesystem::path> eeelcollector::datacollector::util::GetRecursiveDirectoryContents(const std::filesystem::path &root) {
+  if (is_regular_file(root)) {
+	return {root};
+  }
+
   std::vector<std::filesystem::path> files{};
   auto recursiveDirectoryIterator = std::filesystem::recursive_directory_iterator(root);
   std::copy(begin(recursiveDirectoryIterator), end(recursiveDirectoryIterator), std::inserter(files, files.begin()));
@@ -19,19 +22,19 @@ std::string eeelcollector::datacollector::util::ConvertToJson(const eeelcollecto
   const char *fileListFileListName = "fileList";
   const int prettyPrintIndent = 4;
 
+  // Make sure json structure is always the same...Would prefer to use json schema or similar stuff for this
   nlohmann::json json;
   json[collectionTargetFieldName] = obj.collectionTarget;
   if (obj.additionalInformation.empty()) {
-	// Make sure json structure is always the same...Would prefer to use json schema or similar stuff for this
 	json[additionalTargetFieldName]["None"] = "Provided";
   } else {
 	for (const auto &keyValuePair : obj.additionalInformation) {
 	  json[additionalTargetFieldName][keyValuePair.first] = keyValuePair.second;
 	}
   }
-  if (obj.collectedFiles.empty()) {
-	json[fileListFileListName] = nlohmann::json::array();
-  } else {
+
+  json[fileListFileListName] = nlohmann::json::array();
+  if (not obj.collectedFiles.empty()) {
 	auto fileList = nlohmann::json::array();
 	std::transform(obj.collectedFiles.begin(),
 				   obj.collectedFiles.end(),

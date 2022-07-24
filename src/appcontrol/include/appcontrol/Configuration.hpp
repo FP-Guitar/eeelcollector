@@ -8,8 +8,8 @@ struct Configuration {
   bool errorParsing = false;
   int returnCodeParsing = 0;
   std::vector<std::filesystem::path> pathsToCollectDataFrom;
-  std::filesystem::path outputDirectory;
-  std::filesystem::path watchDirectory;
+  std::filesystem::path outputDirectory = ".";
+  std::filesystem::path watchDirectory = ".";
   spdlog::level::level_enum logLevel = spdlog::level::info;
   bool showVersion = false;
 };

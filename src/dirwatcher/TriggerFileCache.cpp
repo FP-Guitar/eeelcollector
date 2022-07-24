@@ -1,5 +1,6 @@
 #include "dirwatcher/TriggerFileCache.h"
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 namespace eeelcollector::dirwatcher {
 bool TriggerFileCache::ContainsNewFiles(std::vector<std::filesystem::path> &fileList) {
@@ -14,6 +15,15 @@ bool TriggerFileCache::ContainsNewFiles(std::vector<std::filesystem::path> &file
 	  std::inserter(diff, diff.end()));
 
   lastSeenFiles_ = inputSet;
+  if (not diff.empty()) {
+	spdlog::debug("Difference in Fileset");
+	if (spdlog::get_level() <= spdlog::level::trace) {
+	  for (const auto &file : diff) {
+		spdlog::trace("NewFile: {}", file.string());
+	  }
+	}
+  }
+
   return not diff.empty();
 }
 

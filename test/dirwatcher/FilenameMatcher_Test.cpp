@@ -24,19 +24,22 @@ TEST(FilenameMatcher, InvValidFileNameCoreMissing) {
 
 TEST(FilenameMatcher, InvValidFileNamelz4Missing) {
   auto isMatch = FilenameMatcher();
-  auto validPath = std::filesystem::path("core.ServiceName.3057.57dd721409bc4ab4b38a3c33a36a608a.3717.1647975805000000");
+  auto
+	  validPath = std::filesystem::path("core.ServiceName.3057.57dd721409bc4ab4b38a3c33a36a608a.3717.1647975805000000");
   EXPECT_FALSE(isMatch(validPath));
 }
 
 TEST(FilenameMatcher, InvValidFileNamelz4iwthoutdotMissing) {
   auto isMatch = FilenameMatcher();
-  auto validPath = std::filesystem::path("core.ServiceName.3057.57dd721409bc4ab4b38a3c33a36a608a.3717.1647975805000000lz4");
+  auto validPath =
+	  std::filesystem::path("core.ServiceName.3057.57dd721409bc4ab4b38a3c33a36a608a.3717.1647975805000000lz4");
   EXPECT_FALSE(isMatch(validPath));
 }
 
 TEST(FilenameMatcher, ValidFileName) {
   auto isMatch = FilenameMatcher();
-  auto validPath = std::filesystem::path("core.ServiceName.3057.57dd721409bc4ab4b38a3c33a36a608a.3717.1647975805000000.lz4");
+  auto validPath =
+	  std::filesystem::path("core.ServiceName.3057.57dd721409bc4ab4b38a3c33a36a608a.3717.1647975805000000.lz4");
   EXPECT_TRUE(isMatch(validPath));
 }
 

@@ -11,6 +11,17 @@ TEST(CollectFilesTest, ExampleScenario) {
   CollectFilesAtTarget collector;
 
   collector.CollectData(infoObject);
-  EXPECT_EQ(infoObject.collectedFiles.size(),8);
-  EXPECT_EQ(infoObject.collectedFiles[0].filename(),std::filesystem::path("a") );
+  EXPECT_EQ(infoObject.collectedFiles.size(), 8);
+  EXPECT_EQ(infoObject.collectedFiles[0].filename(), std::filesystem::path("a"));
+}
+TEST(CollectFilesTest, ExampleScenarioTargetIsFile) {
+  auto scenarioPath = getResourcesPath() /= "filelistscenario/a/a_foo1.txt";
+  CollectionInfoObject infoObject;
+  infoObject.collectionTarget = scenarioPath;
+
+  CollectFilesAtTarget collector;
+
+  collector.CollectData(infoObject);
+  EXPECT_EQ(infoObject.collectedFiles.size(), 1);
+  EXPECT_EQ(infoObject.collectedFiles[0].filename(), std::filesystem::path("a_foo1.txt"));
 }
