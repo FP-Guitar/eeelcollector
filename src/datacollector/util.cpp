@@ -52,15 +52,20 @@ std::string eeelcollector::datacollector::util::CreateUniqueIdentifierFromPath(c
   std::mt19937 generator(randomdDevice());
   auto gen = uuids::basic_uuid_random_generator{&generator};
   std::stringstream identifier;
-  if (is_directory(path)) {
+  auto directory_as_string = path.string();
+  if (directory_as_string == "/") {
+	// we do not want to have / in a filename
+	identifier << "rootfs";
+  } else if (directory_as_string.ends_with("/")) {
 	identifier << path.parent_path().filename().string();
   } else {
 	identifier << path.filename().string();
   }
-  auto now = std::chrono::system_clock::now();
   identifier << '-';
 
+  auto now = std::chrono::system_clock::now();
   identifier << std::to_string(now.time_since_epoch().count());
+  identifier << '-';
   identifier << gen();
   return identifier.str();
 }

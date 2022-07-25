@@ -47,3 +47,24 @@ TEST(UtilTest, CreateUniqueIdentifierFromPath) {
   auto identifier2 = util::CreateUniqueIdentifierFromPath(path);
   EXPECT_NE(identifier1, identifier2);
 }
+TEST(UtilTest, StartsWithFileNameDirectory) {
+  auto path = std::filesystem::path("/Foo/");
+  auto identifier1 = util::CreateUniqueIdentifierFromPath(path);
+  EXPECT_TRUE(identifier1.starts_with("Foo"));
+}
+TEST(UtilTest, StartsWithFileNameFileWithoudEnding) {
+  auto path = std::filesystem::path("/Foo");
+  auto identifier1 = util::CreateUniqueIdentifierFromPath(path);
+  EXPECT_TRUE(identifier1.starts_with("Foo"));
+}
+TEST(UtilTest, StartsWithFileNameFileWith) {
+  auto path = std::filesystem::path("/Foo.txt");
+  auto identifier1 = util::CreateUniqueIdentifierFromPath(path);
+  EXPECT_TRUE(identifier1.starts_with("Foo.txt"));
+}
+TEST(UtilTest, StartsWithRoot) {
+  auto path = std::filesystem::path("/");
+  auto identifier1 = util::CreateUniqueIdentifierFromPath(path);
+  // We do not like to have  "/" in filenames
+  EXPECT_TRUE(identifier1.starts_with("rootfs"));
+}
