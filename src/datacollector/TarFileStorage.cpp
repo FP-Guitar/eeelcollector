@@ -23,7 +23,11 @@ void eeelcollector::datacollector::TarFileStorage::StoreObject(const eeelcollect
   if (std::system(tarDirectoryAsString.c_str()) != 0) {
 	spdlog::error("Executiong {}", tarDirectoryAsString);
   } else {
-	auto tmpFile = std::filesystem::temp_directory_path()/="collection.json";
+	auto collectionFilename = filename + "_" + "collection.json";
+	auto tmpFile = std::filesystem::temp_directory_path() /= collectionFilename;
+	if (std::filesystem::exists(tmpFile)) {
+	  std::filesystem::remove(tmpFile);
+	}
 	auto json = util::ConvertToJson(object);
 	auto file = std::ofstream(tmpFile);
 	file << json;
@@ -47,10 +51,10 @@ void eeelcollector::datacollector::TarFileStorage::StoreObject(const eeelcollect
 
   }
 
-
 }
-eeelcollector::datacollector::TarFileStorage::TarFileStorage(std::filesystem::path targetDirectory) : targetDirectory_{std::move(
-	targetDirectory)} {
+eeelcollector::datacollector::TarFileStorage::TarFileStorage(std::filesystem::path targetDirectory) : targetDirectory_{
+	std::move(
+		targetDirectory)} {
   spdlog::warn(
 	  "Experimental tar storing... make sure you have tar in path... ask your friendly programmer to replace this soon");
 }
